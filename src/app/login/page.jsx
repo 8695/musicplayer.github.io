@@ -19,10 +19,7 @@ import apis from "@/app/apis/apis";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export const metadata = {
-  title: "Login Page",
-  description: "Your login page", 
-};
+
 export default function Page() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const router = useRouter();
