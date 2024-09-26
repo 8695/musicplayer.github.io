@@ -16,7 +16,7 @@ export default function Home() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [users,setUser]=useState([]);
 
-  const id = localStorage.getItem("userId");
+  
 
   console.log("id",id);
 
@@ -35,7 +35,7 @@ export default function Home() {
   };
   const fetchMedia = async () => {
     try {
-        console.log("User ID:", id);
+      const id = localStorage.getItem("userId");
         const response = await axios.get(apis.getUserMedia,{ 
           params: { userId: id } 
       }); 
