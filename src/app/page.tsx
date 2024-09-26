@@ -1,101 +1,146 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import UploadComponent from "../components/UploadComponent";
+
+
+import { toast } from 'react-toastify';
+import useStore from "../lib/store";
+import { Audio } from 'react-loader-spinner'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // const { register, handleSubmit, formState: { errors } } = useForm();
+  const { users, loading: usersLoading, fetchUsers } = useStore();
+  console.log("users",users);
+  
+  //const token = Cookies.get("token");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  
+  
+
+  
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs";
+    script.type = "module";
+    document.body.appendChild(script);
+    
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <>
+      <div className="flex justify-center mt-4">
+    
+        <div className="relative mr-3 md:mr-0 hidden md:block" style={{ width: "50%" }}>
+          <input
+            type="text"
+            id="search"
+            style={{ width: "100%" }}
+            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2"
+            placeholder="Search..."
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="order-2 md:order-3 ml-2 mt-0">
+          
+        </div>
+      </div>
+
+      <div className="flex items-center justify-center min-h-screen">
+        {loading ? (
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        ) : users.length > 0 ? (
+          <div className="flex flex-wrap justify-center">
+            {users.map((it, index) => (
+              <div key={index} className="mt-6 p-4 relative z-10 rounded-xl shadow-xl">
+                {it.mediaType.startsWith('audio/') ? (
+                  <div className="bg-white border-slate-100 dark:bg-slate-800 border-b rounded-t-xl p-4 pb-6 sm:p-10 sm:pb-8 lg:p-6 xl:p-10 xl:pb-8 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8">
+                    <div className="flex items-center space-x-4">
+                    <Audio
+              height="120"
+  width="100"
+  radius="9"
+  color="green"
+  ariaLabel="loading"
+  wrapperStyle
+  wrapperClass
+/>
+                      <div className="min-w-0 flex-auto space-y-1 font-semibold">
+                        <h2 className="text-slate-500 dark:text-slate-400 text-sm leading-6 truncate">
+                          {it.title}
+                        </h2>
+                        <p className="text-slate-900 dark:text-slate-50 text-lg">
+                          Full Stack Radio
+                        </p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="relative">
+                        <div className="bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                          <audio controls className="w-full p-4">
+                            <source src={it.file} />
+                          </audio>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                ) : it.mediaType.startsWith('video/') ? (
+                  <div className="bg-white border-slate-100 dark:bg-slate-800 border-b rounded-t-xl p-4 pb-6 sm:p-10 sm:pb-8 lg:p-6 xl:p-10 xl:pb-8 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8">
+                    <div className="flex items-center space-x-4">
+                    
+                    
+                    </div>
+                    <div className="space-y-2">
+                      <div className="relative max-w-sm">
+                        <div className="bg-slate-100 dark:bg-slate-700 ">
+                        <video controls className="w-full">
+                       <source src={it.file} />
+                       Your browser does not support the video tag.
+                     </video>
+                        </div>
+                        <div className="min-w-0 flex-auto space-y-1 font-semibold">
+                        <div className="px-6 py-4">
+                       <p className="text-gray-700 text-base">{it.title}</p>
+                     </div>
+                        
+                      </div>
+                      </div>
+                    
+                    </div>
+                  </div>
+                
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center min-h-screen">
+            <h1 style={{ fontSize: "40px", color: "goldenrod" }}>Upload to show Data</h1>
+            <dotlottie-player
+              src="https://lottie.host/eca942ec-435f-40aa-8aad-83d6105cc018/sK0xeE8Fj3.json"
+              background="transparent"
+              speed="1"
+              style={{ width: '600px', height: '800px' }}
+              loop
+              autoplay
+            ></dotlottie-player>
+          </div>
+        )}
+      </div>
+
+      
+    </>
   );
 }
