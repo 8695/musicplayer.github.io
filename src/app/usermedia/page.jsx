@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import UploadComponent from "../../../components/UploadComponent";
+import UploadComponent from "../../components/UploadComponent";
 import axios from "axios";
 import apis from "../../apis/apis";
 import Cookies from "js-cookie";
