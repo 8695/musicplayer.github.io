@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import axios from "axios";
-import apis from "../../apis/apis";
+import apis from "../apis/apis";
 import { toast } from "react-toastify";
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input";
