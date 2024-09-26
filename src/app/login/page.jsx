@@ -19,9 +19,10 @@ import apis from "@/app/apis/apis";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export const description =
-  "A login page with two columns. The first column has the login form with email and password. There's a Forgot your password link and a link to sign up if you do not have an account. The second column has a cover image.";
-
+export const metadata = {
+  title: "Login Page",
+  description: "Your login page", 
+};
 export default function Page() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const router = useRouter();
