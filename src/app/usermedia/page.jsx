@@ -18,7 +18,6 @@ export default function Home() {
 
   
 
-  console.log("id",id);
 
   const token = Cookies.get("token");
 
